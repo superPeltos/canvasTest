@@ -6,7 +6,8 @@ var img = new Image();
 var tablePosition = [];
 var arrayDot = [];
 var x, y,dot;
-var numberDot = 2500;
+var numberDot = 5000;
+var positionMouseX,positionMouseY;
 
 img.onload = function() {
     ctx.drawImage(img, 0, 0,img.width,img.height);
@@ -30,10 +31,11 @@ img.onload = function() {
     ctx.putImageData(myImg,0,0); // Image data is adjusted according to context
     for(var i=0;i< numberDot;i++){
 
-        let random = Math.floor(Math.random() * tablePosition.length) + 1;
+        let random = Math.floor(Math.random() * tablePosition.length);
 
-        dot = { x: tablePosition[random].x, y: tablePosition[random].y, radius: 1 };
-        drawDot(dot);
+        dot = { x: tablePosition[random].x, y: tablePosition[random].y, radius: 1 ,posInitX :tablePosition[random].x,posInitY :tablePosition[random].y};
+        arrayDot.push(dot);
+        drawDot(arrayDot[i]);
 
     }
     window.requestAnimationFrame(moveDot);
@@ -52,8 +54,34 @@ function moveDot() {
         // Find the x and y values of the dot based on the direction it is to move.
         let random = Math.floor(Math.random() * tablePosition.length);
 
-        dot = { x: tablePosition[random].x, y: tablePosition[random].y, radius: 2 };
-        drawDot(dot)
+        // dot = { x: tablePosition[random].x, y: tablePosition[random].y, radius: 2 };
+        // drawDot(dot)
+
+        //
+        // if(arrayDot[i].y > arrayDot[i].posInitY + 5){
+        //     arrayDot[i].y -= Math.random() * 5;
+        // }else if(arrayDot[i].y < arrayDot[i].posInitY + 5){
+        //     arrayDot[i].y += Math.random() * 5;
+        // }
+
+        if(positionMouseX === arrayDot[i].posInitX){
+            console.log('couou')
+            if(arrayDot[i].x > arrayDot[i].posInitX + 5){
+                arrayDot[i].x -= Math.random() * 500;
+            }else if(arrayDot[i].x < arrayDot[i].posInitX + 5){
+                arrayDot[i].x += Math.random() * 500;
+            }
+        }else{
+            if(arrayDot[i].x > arrayDot[i].posInitX + 5){
+                arrayDot[i].x -= Math.random() * 2;
+            }else if(arrayDot[i].x < arrayDot[i].posInitX + 5){
+                arrayDot[i].x += Math.random() * 2;
+            }
+        }
+
+
+        //arrayDot[i].y += Math.random() * 1;
+        drawDot(arrayDot[i])
     }
 
     // Draw the dot in its new position.
@@ -75,3 +103,8 @@ function getRandomColor() {
     }
     return color;
 }
+
+canvas.addEventListener('mousemove', function(e){
+        positionMouseX = e.clientX;
+        positionMouseY = e.clientY;
+});
