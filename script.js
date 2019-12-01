@@ -1,5 +1,5 @@
 var x, y, dot;
-var numberDot = 6000;
+var numberDot = 10000;
 
 var canvas = document.getElementById('canvas')
 var ctx = canvas.getContext('2d');
@@ -7,6 +7,9 @@ var img = new Image();
 var tablePosition = [];
 var arrayDot = [];
 var positionMouseX, positionMouseY;
+
+var distanceDeplacement = 50;
+var radiusAction = 15;
 img.src = './nike.jpg';
 img.onload = function () {
     ctx.drawImage(img, 0, 0, img.width, img.height);
@@ -57,25 +60,23 @@ function drawDot(dot) {
 function moveDot() {
     ctx.clearRect(0, 0, img.width, img.height);
     for (var i = 0; i < numberDot; i++) {
-        var distanceDeplacement = 50;
-        var radiusAction = 15;
+
         if (
             positionMouseX > arrayDot[i].posInitX - radiusAction &&
             positionMouseX < arrayDot[i].posInitX + radiusAction &&
             positionMouseY > arrayDot[i].posInitY - radiusAction &&
             positionMouseY < arrayDot[i].posInitY + radiusAction
         ) {
-            console.log('couou')
 
             if (arrayDot[i].x > arrayDot[i].posInitX + 5) {
-                arrayDot[i].x -= Math.random() * distanceDeplacement;
+                arrayDot[i].x -= Math.random() * distanceDeplacement + distanceDeplacement;
             } else if (arrayDot[i].x < arrayDot[i].posInitX + 5) {
-                arrayDot[i].x += Math.random() * distanceDeplacement;
+                arrayDot[i].x += Math.random() * distanceDeplacement + distanceDeplacement;
             }
             if (arrayDot[i].y > arrayDot[i].posInitY + 5) {
-                arrayDot[i].y -= Math.random() * distanceDeplacement;
+                arrayDot[i].y -= Math.random() * distanceDeplacement + distanceDeplacement;
             } else if (arrayDot[i].y < arrayDot[i].posInitY + 5) {
-                arrayDot[i].y += Math.random() * distanceDeplacement;
+                arrayDot[i].y += Math.random() * distanceDeplacement + distanceDeplacement;
             }
         } else {
             if (arrayDot[i].x > arrayDot[i].posInitX + 5) {
@@ -106,6 +107,6 @@ function getRandomColor() {
 }
 
 canvas.addEventListener('mousemove', function (e) {
-    positionMouseX = e.clientX;
-    positionMouseY = e.clientY;
+    positionMouseX = e.clientX - (distanceDeplacement / 4);
+    positionMouseY = e.clientY - (distanceDeplacement / 4);
 });
